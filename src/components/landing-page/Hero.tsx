@@ -88,7 +88,7 @@ export function Hero() {
           transition={{ type: 'spring', stiffness: 300 }}
         >
           <div className="bg-card/80 border-border/50 shadow-card/20 mx-auto max-w-2xl rounded-2xl border p-1 shadow-2xl backdrop-blur-xl">
-            <div className="bg-secondary overflow-hidden rounded-xl p-6 font-mono text-sm">
+            <div className="bg-background/40 overflow-hidden rounded-xl p-6 font-mono text-sm">
               <div className="mb-4 flex gap-2">
                 <div className="h-3 w-3 rounded-full bg-red-500" />
                 <div className="h-3 w-3 rounded-full bg-yellow-500" />

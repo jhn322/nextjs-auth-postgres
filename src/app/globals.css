@@ -185,3 +185,15 @@ div[data-radix-popper-content-wrapper] {
 div[data-state='open'] ~ div.fixed.inset-0 {
   pointer-events: none !important;
 }
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}

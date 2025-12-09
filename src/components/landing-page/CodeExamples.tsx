@@ -191,7 +191,6 @@ export function CodeExamples() {
           className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-6"
           variants={containerVariants}
         >
-          {/* Top Row: 3 cards */}
           {codeExamples.slice(0, 3).map((example, index) => (
             <motion.div
               key={index}
@@ -201,7 +200,7 @@ export function CodeExamples() {
               {/* Code Card */}
               <div className="group relative flex h-96 flex-shrink-0 flex-col overflow-hidden rounded-2xl shadow-xl transition-all duration-300 hover:scale-[1.02] md:h-[500px]">
                 <div className="bg-card/80 border-border/50 shadow-card/20 flex h-full flex-col rounded-2xl border p-1 shadow-2xl backdrop-blur-xl">
-                  <div className="bg-background/40 flex h-full flex-col overflow-hidden rounded-xl p-6 font-mono text-sm">
+                  <div className="bg-background/40 no-scrollbar flex h-full flex-col overflow-y-auto rounded-xl p-6 font-mono text-sm">
                     {/* Code Content */}
                     <pre className="text-foreground/90 h-full text-xs leading-relaxed md:text-sm">
                       <code>{example.code}</code>
@@ -209,7 +208,7 @@ export function CodeExamples() {
                   </div>
                 </div>
 
-                {/* Overlay with Text - Only at bottom */}
+                {/* Overlayed Text */}
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col p-2 md:p-4">
                   <div className="bg-secondary/60 border-border/50 rounded-lg border p-4 backdrop-blur-sm md:p-6">
                     <h3 className="text-foreground mb-2 text-xl font-semibold md:text-2xl">
@@ -224,7 +223,6 @@ export function CodeExamples() {
             </motion.div>
           ))}
 
-          {/* Bottom Row: 2 cards (one wide, one normal) */}
           {codeExamples.slice(3).map((example, index) => {
             const isWide = example.size === 'wide';
             const colSpan = isWide ? 'md:col-span-2' : 'md:col-span-1';
@@ -241,7 +239,7 @@ export function CodeExamples() {
                   className={`group relative flex ${heightClass} flex-shrink-0 flex-col overflow-hidden rounded-2xl shadow-xl transition-all duration-300 hover:scale-[1.02]`}
                 >
                   <div className="bg-card/80 border-border/50 shadow-card/20 flex h-full flex-col rounded-2xl border p-1 shadow-2xl backdrop-blur-xl">
-                    <div className="bg-background/40 flex h-full flex-col overflow-hidden rounded-xl p-6 font-mono text-sm">
+                    <div className="bg-background/40 no-scrollbar flex h-full flex-col overflow-y-auto rounded-xl p-6 font-mono text-sm">
                       {/* Code Content */}
                       <pre className="text-foreground/90 h-full text-xs leading-relaxed md:text-sm">
                         <code>{example.code}</code>
@@ -249,7 +247,7 @@ export function CodeExamples() {
                     </div>
                   </div>
 
-                  {/* Overlay with Text - Only at bottom */}
+                  {/* Overlayed Text */}
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col p-2 md:p-4">
                     <div className="bg-secondary/60 border-border/50 rounded-lg border p-4 backdrop-blur-sm md:p-6">
                       <h3 className="text-foreground mb-2 text-xl font-semibold md:text-2xl">
