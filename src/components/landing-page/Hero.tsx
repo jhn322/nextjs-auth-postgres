@@ -1,41 +1,113 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import { AUTH_PATHS } from '@/lib/constants/routes';
-import { APP_NAME } from '@/lib/constants/site';
 
-export default function HeroSection() {
+export function Hero() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: [0.0, 0.0, 0.2, 1.0] as const },
+    },
+  };
+
   return (
-    <section className="relative w-full overflow-hidden px-4 py-16 md:py-24 lg:py-32">
-      <div className="relative z-10 container mx-auto max-w-4xl space-y-8">
-        <div className="space-y-6 text-center">
-          <h1 className="text-foreground text-5xl font-bold tracking-tight md:text-6xl">
-            {APP_NAME}
-          </h1>
-          <p className="text-foreground/90 mx-auto max-w-2xl text-xl md:text-2xl">
-            Get started with your Next.js app project. Authentication and
-            Database are already set up on the backend.
-          </p>
-          <div className="flex flex-col items-center gap-4 pt-4 sm:flex-row sm:justify-center">
-            <Link href={AUTH_PATHS.LOGIN} className="w-full sm:w-auto">
-              <Button
-                className="bg-foreground text-background hover:bg-foreground/90 w-full"
-                aria-label={`Get started with ${APP_NAME}`}
-              >
-                Log in
-              </Button>
-            </Link>
-            <Link href={AUTH_PATHS.REGISTER} className="w-full sm:w-auto">
-              <Button
-                variant="outline"
-                className="hover:bg-background/90 w-full sm:w-auto"
-                aria-label={`Sign up for ${APP_NAME}`}
-              >
-                Sign Up
-              </Button>
-            </Link>
-          </div>
-        </div>
+    <section className="relative w-full overflow-hidden px-4 py-16 md:py-24 lg:py-32 xl:py-40">
+      <div className="absolute inset-0 -z-10">
+        <div className="bg-primary/5 absolute top-0 right-1/4 h-96 w-96 rounded-full blur-3xl" />
+        <div className="bg-accent/5 absolute bottom-0 left-1/4 h-96 w-96 rounded-full blur-3xl" />
+        <div className="absolute inset-0 opacity-40 backdrop-blur-[100px]" />
       </div>
+
+      <motion.div
+        className="container mx-auto max-w-5xl space-y-8"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {/* Main headline */}
+        <motion.div variants={itemVariants} className="space-y-6 text-center">
+          <h1 className="text-5xl font-bold tracking-tight text-balance md:text-6xl lg:text-7xl">
+            <span className="text-foreground">Build Secure</span>
+            <br />
+            <span className="text-primary">Build Better.</span>
+          </h1>
+
+          <p className="text-foreground/70 mx-auto max-w-2xl text-lg text-balance md:text-xl">
+            Complete authentication template with Next.js, PostgreSQL, and OAuth
+            support. Everything you need to launch secure applications faster.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-col justify-center gap-4 pt-4 sm:flex-row"
+        >
+          <Link href={AUTH_PATHS.LOGIN}>
+            <Button
+              size="lg"
+              className="bg-primary text-primary-foreground group relative overflow-hidden rounded-full px-8 py-6 text-base shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+            >
+              <span className="relative flex items-center gap-2">
+                Get Started
+                <ArrowRight className="h-4 w-4" />
+              </span>
+            </Button>
+          </Link>
+          <Link href={AUTH_PATHS.REGISTER}>
+            <Button
+              size="lg"
+              className="border-primary/40 bg-primary/10 hover:bg-primary/20 text-foreground rounded-full border-2 px-8 py-6 text-base shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
+              Sign Up Free
+            </Button>
+          </Link>
+        </motion.div>
+
+        {/* Floating code snippet preview */}
+        <motion.div
+          variants={itemVariants}
+          className="pt-12"
+          whileHover={{ y: -5 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+        >
+          <div className="bg-card/80 border-border/50 shadow-card/20 mx-auto max-w-2xl rounded-2xl border p-1 shadow-2xl backdrop-blur-xl">
+            <div className="bg-secondary overflow-hidden rounded-xl p-6 font-mono text-sm">
+              <div className="mb-4 flex gap-2">
+                <div className="h-3 w-3 rounded-full bg-red-500" />
+                <div className="h-3 w-3 rounded-full bg-yellow-500" />
+                <div className="h-3 w-3 rounded-full bg-green-500" />
+              </div>
+              <pre className="overflow-x-auto text-blue-400">
+                <code>{`// One command to get started
+npx create-next-app@latest --auth-template
+
+// Full authentication included
+- Email/Password Auth
+- OAuth (Google & GitHub)
+- Email Verification
+- Password Reset`}</code>
+              </pre>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
