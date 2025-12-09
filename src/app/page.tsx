@@ -1,10 +1,10 @@
-import { Hero } from '../components/landing-page/hero';
-import { Features } from '../components/landing-page/features';
-import { CodeExamples } from '../components/landing-page/code-examples';
-import { TechStack } from '../components/landing-page/tech-stack';
-import { AdvantagesShowcase } from '../components/landing-page/advantages';
-import { Integrations } from '../components/landing-page/integrations';
-import { FAQ } from '../components/landing-page/faq';
+import { Hero } from '../components/landing-page/Hero';
+import { Features } from '../components/landing-page/Features';
+import { CodeExamples } from '../components/landing-page/CodeExamples';
+import { TechStack } from '../components/landing-page/TechStack';
+import { AdvantagesShowcase } from '../components/landing-page/Advantages';
+import { Integrations } from '../components/landing-page/Integrations';
+import { FAQ } from '../components/landing-page/Faq';
 import type { Metadata } from 'next';
 // import Form from './form';
 
