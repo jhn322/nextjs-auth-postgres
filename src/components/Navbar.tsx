@@ -34,10 +34,10 @@ interface NavItem {
 
 // Basic navigation links that all visitors can see
 const publicNavItems: NavItem[] = [
-  { href: '/page1', label: 'Page 1' },
-  { href: '/page2', label: 'Page 2' },
-  { href: '/page3', label: 'Page 3' },
-  { href: '/page4', label: 'Page 4' },
+  { href: '/features', label: 'Features' },
+  { href: '/about', label: 'About' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 export function Navbar() {
@@ -103,21 +103,21 @@ export function Navbar() {
                   fetchPriority="high"
                 />
               </Link>
+            </div>
 
-              {/* Desktop Navigation */}
-              <div className="hidden items-center gap-6 md:flex">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`text-foreground after:bg-foreground relative px-2 py-1 transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 ${
-                      isActiveLink(item.href) && 'font-medium'
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
+            {/* Desktop Navigation - Centered */}
+            <div className="hidden items-center gap-6 md:flex absolute left-1/2 -translate-x-1/2">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`text-foreground after:bg-foreground relative px-2 py-1 transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 ${
+                    isActiveLink(item.href) && 'font-medium'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
             </div>
 
             {/* Auth Buttons & User Dropdown */}

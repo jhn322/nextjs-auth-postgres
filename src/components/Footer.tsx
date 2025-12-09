@@ -1,147 +1,136 @@
+'use client';
+
 import Link from 'next/link';
-import Image from 'next/image';
 import { Separator } from '@/components/ui/separator';
-import { CardContent, CardTitle, CardDescription } from '@/components/ui/card';
+import { motion } from 'framer-motion';
+import { Github, Twitter, Linkedin } from 'lucide-react';
 import { APP_NAME } from '@/lib/constants/site';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  const footerLinks = [
+    {
+      title: 'Product',
+      links: [
+        { label: 'Features', href: '#features' },
+        { label: 'Pricing', href: '#pricing' },
+        { label: 'Security', href: '#security' },
+        { label: 'Roadmap', href: '#roadmap' },
+      ],
+    },
+    {
+      title: 'Resources',
+      links: [
+        { label: 'Documentation', href: '#docs' },
+        { label: 'API Reference', href: '#api' },
+        { label: 'GitHub', href: 'https://github.com' },
+        { label: 'Community', href: '#community' },
+      ],
+    },
+    {
+      title: 'Company',
+      links: [
+        { label: 'About', href: '#about' },
+        { label: 'Blog', href: '#blog' },
+        { label: 'Contact', href: '#contact' },
+        { label: 'Careers', href: '#careers' },
+      ],
+    },
+  ];
+
   return (
-    <footer className="bg-background w-full">
-      <Separator className="bg-border mb-4" />
-      <div className="container mx-auto px-4 py-8 md:py-12">
-        <div className="flex flex-col space-y-8">
-          {/* Logo and Brand */}
-          <div className="flex items-center">
-            <div className="h-16 w-32">
-              <Image
-                src="/logo.svg"
-                alt="Logo"
-                width={64}
-                height={64}
-                loading="lazy"
-                sizes="164px"
-                className="h-full w-full object-contain"
-              />
+    <footer className="bg-card/30 border-border/60 w-full border-t">
+      <div className="container mx-auto px-4 py-12 md:py-16">
+        <motion.div
+          className="flex flex-col space-y-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* Brand Section */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="bg-primary flex h-10 w-10 items-center justify-center rounded-lg">
+                <span className="text-primary-foreground text-lg font-bold">
+                  N
+                </span>
+              </div>
+              <h3 className="text-xl font-bold">{APP_NAME}</h3>
             </div>
-            <h1 className="text-foreground ml-4 text-3xl font-bold tracking-tight">
-              {/* {APP_NAME} */}
-            </h1>
-          </div>
-
-          {/* Main Content */}
-          <section className="grid grid-cols-1 gap-8 md:grid-cols-1 lg:grid-cols-12">
-            <nav className="grid grid-cols-2 gap-8 sm:grid-cols-2 md:grid-cols-4 md:gap-12 lg:col-span-12">
-              <CardContent className="space-y-3 md:space-y-4">
-                <CardTitle className="text-foreground text-base font-semibold">
-                  Home
-                </CardTitle>
-                <div className="grid gap-2 md:gap-3">
-                  <Link href="/">
-                    <CardDescription className="hover:text-foreground text-foreground text-sm transition-colors">
-                      Link 1
-                    </CardDescription>
-                  </Link>
-                  <Link href="/premium-saffron/food-beverages">
-                    <CardDescription className="hover:text-foreground text-foreground text-sm transition-colors">
-                      Link 2
-                    </CardDescription>
-                  </Link>
-                  <Link href="/premium-saffron/medical-cosmetics">
-                    <CardDescription className="hover:text-foreground text-foreground text-sm transition-colors">
-                      Link 3
-                    </CardDescription>
-                  </Link>
-                </div>
-              </CardContent>
-
-              <CardContent className="space-y-3 md:space-y-4">
-                <CardTitle className="text-foreground text-base font-semibold">
-                  More
-                </CardTitle>
-                <div className="grid gap-2 md:gap-3">
-                  <Link href="/technology/growing">
-                    <CardDescription className="hover:text-foreground text-foreground text-sm transition-colors">
-                      Link 1
-                    </CardDescription>
-                  </Link>
-                  <Link href="/technology/harvesting">
-                    <CardDescription className="hover:text-foreground text-foreground text-sm transition-colors">
-                      Link 2
-                    </CardDescription>
-                  </Link>
-                  <Link href="/technology/data/batches">
-                    <CardDescription className="hover:text-foreground text-foreground text-sm transition-colors">
-                      Link 3
-                    </CardDescription>
-                  </Link>
-                </div>
-              </CardContent>
-
-              <CardContent className="space-y-3 md:space-y-4">
-                <CardTitle className="text-foreground text-base font-semibold">
-                  Resources
-                </CardTitle>
-                <div className="grid gap-2 md:gap-3">
-                  <Link href="/blogs/updates">
-                    <CardDescription className="hover:text-foreground text-foreground text-sm transition-colors">
-                      Link 1
-                    </CardDescription>
-                  </Link>
-                  <Link href="/blogs/news">
-                    <CardDescription className="hover:text-foreground text-foreground text-sm transition-colors">
-                      Link 2
-                    </CardDescription>
-                  </Link>
-                  <Link href="/blogs/saffron-recipes">
-                    <CardDescription className="hover:text-foreground text-foreground text-sm transition-colors">
-                      Link 3
-                    </CardDescription>
-                  </Link>
-                </div>
-              </CardContent>
-
-              <CardContent className="space-y-3 md:space-y-4">
-                <CardTitle className="text-foreground text-base font-semibold">
-                  About us
-                </CardTitle>
-                <div className="grid gap-2 md:gap-3">
-                  <Link href="/about-us/about">
-                    <CardDescription className="hover:text-foreground text-foreground text-sm transition-colors">
-                      Link 1
-                    </CardDescription>
-                  </Link>
-                  <Link href="/about-us/career">
-                    <CardDescription className="hover:text-foreground text-foreground text-sm transition-colors">
-                      Link 2
-                    </CardDescription>
-                  </Link>
-                  <Link href="/about-us/contact-us">
-                    <CardDescription className="hover:text-foreground text-foreground text-sm transition-colors">
-                      Link 3
-                    </CardDescription>
-                  </Link>
-                </div>
-              </CardContent>
-            </nav>
-          </section>
-
-          {/* Footer Bottom */}
-          <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:justify-between">
-            <CardDescription className="text-foreground text-center text-sm md:text-left">
-              © {currentYear} | {APP_NAME}.
-            </CardDescription>
-
-            <div className="flex gap-4 text-sm">
-              <Link href="/integritetspolicy">
-                <CardDescription className="hover:text-foreground text-foreground text-sm transition-colors">
-                  Privacy Policy
-                </CardDescription>
+            <p className="text-foreground/60 max-w-sm">
+              Production-ready authentication for Next.js applications. Ship
+              faster with security built-in.
+            </p>
+            <div className="flex gap-4 pt-4">
+              <Link
+                href="#"
+                className="text-foreground/60 hover:text-primary transition-colors"
+              >
+                <Github className="h-5 w-5" />
+              </Link>
+              <Link
+                href="#"
+                className="text-foreground/60 hover:text-primary transition-colors"
+              >
+                <Twitter className="h-5 w-5" />
+              </Link>
+              <Link
+                href="#"
+                className="text-foreground/60 hover:text-primary transition-colors"
+              >
+                <Linkedin className="h-5 w-5" />
               </Link>
             </div>
           </div>
-        </div>
+
+          <Separator className="bg-border/40" />
+
+          {/* Links Grid */}
+          <div className="grid gap-8 md:grid-cols-3">
+            {footerLinks.map((section, index) => (
+              <div key={index}>
+                <h4 className="mb-4 font-semibold">{section.title}</h4>
+                <ul className="space-y-3">
+                  {section.links.map((link, linkIndex) => (
+                    <li key={linkIndex}>
+                      <Link
+                        href={link.href}
+                        className="text-foreground/60 hover:text-primary text-sm transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <Separator className="bg-border/40" />
+
+          {/* Bottom Section */}
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <p className="text-foreground/60 text-sm">
+              © {currentYear} {APP_NAME}. All rights reserved.
+            </p>
+            <div className="flex gap-6">
+              <Link
+                href="#"
+                className="text-foreground/60 hover:text-primary text-sm transition-colors"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="#"
+                className="text-foreground/60 hover:text-primary text-sm transition-colors"
+              >
+                Terms of Service
+              </Link>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </footer>
   );
