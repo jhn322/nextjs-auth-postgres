@@ -1,4 +1,4 @@
-# Next.js BetterAuth Template
+# Next.js Better Auth Template
 
 A full-stack authentication template built with Next.js, PostgreSQL (Neon), and BetterAuth.js in mind, but can easily be adapted to other authentication providers and databases. This template provides a complete authentication system with email/password authentication, OAuth providers (Google and GitHub), email verification, and password reset functionality.
 

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { authClient } from '@/lib/auth/auth-client';
 import { OnlineStatusIndicator } from '@/components/ui/online-status-indicator';
@@ -26,6 +26,7 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { AUTH_PATHS, PROTECTED_PATHS } from '@/lib/constants/routes';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface NavItem {
   href: string;
@@ -44,13 +45,20 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   // Get current session from BetterAuth
   const { data: session, isPending } = authClient.useSession();
-  const status = isPending
-    ? 'loading'
-    : session
-      ? 'authenticated'
-      : 'unauthenticated';
+
+  // Checking for OAuth callback params
+  const isProcessingOAuth =
+    searchParams?.has('code') && !searchParams?.has('error');
+
+  const status =
+    isPending || isProcessingOAuth
+      ? 'loading'
+      : session
+        ? 'authenticated'
+        : 'unauthenticated';
 
   // Check if user is authenticated
   const isAuthenticated = !!session;
@@ -128,7 +136,15 @@ export function Navbar() {
 
             {/* Auth Buttons & User Dropdown */}
             <div className="hidden md:block">
-              {isAuthenticated ? (
+              {status === 'loading' ? (
+                <div className="flex items-center gap-2 px-2 py-1">
+                  <Skeleton className="h-8 w-8 rounded-full" />
+                  <div className="flex flex-col gap-1">
+                    <Skeleton className="h-3 w-16" />
+                    <Skeleton className="h-2 w-24" />
+                  </div>
+                </div>
+              ) : isAuthenticated ? (
                 <DropdownMenu onOpenChange={setIsDropdownOpen}>
                   <DropdownMenuTrigger asChild>
                     <Button
@@ -217,7 +233,7 @@ export function Navbar() {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              ) : status === 'unauthenticated' ? (
+              ) : (
                 <Link href={AUTH_PATHS.LOGIN}>
                   <Button
                     variant="default"
@@ -226,95 +242,103 @@ export function Navbar() {
                     Log in
                   </Button>
                 </Link>
-              ) : null}
+              )}
             </div>
 
             {/* User Dropdown (if authenticated) */}
             <div className="flex items-center gap-2 md:hidden">
               {/* Mobile User Dropdown */}
-              {isAuthenticated && (
-                <DropdownMenu onOpenChange={setIsDropdownOpen}>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="text-foreground hover:bg-accent hover:text-accent-foreground relative flex h-10 w-10 items-center gap-2 p-1"
-                      aria-label="User menu"
-                    >
-                      <div className="flex items-center gap-1">
-                        <User className="h-8 w-8" />
-                        <ChevronDown
-                          className={`h-3 w-3 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
-                        />
-                      </div>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56" align="end" forceMount>
-                    <DropdownMenuLabel className="font-normal">
-                      <div className="flex min-w-0 items-center gap-3">
-                        <Avatar className="h-9 w-9 shrink-0">
-                          <AvatarFallback className="bg-primary text-primary-foreground text-sm font-medium">
-                            {session?.user?.email?.charAt(0).toUpperCase() ||
-                              'U'}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="flex min-w-0 flex-1 flex-col space-y-1">
-                          <p className="truncate text-sm leading-none font-medium">
-                            {capitalizeFirstLetter(session?.user?.name) ||
-                              'Användare'}
-                          </p>
-                          <p
-                            className="text-foreground/90 truncate text-xs leading-none"
-                            title={session?.user?.email || ''}
-                          >
-                            {session?.user?.email}
-                          </p>
+              {status === 'loading' ? (
+                <Skeleton className="h-10 w-10 rounded-md" />
+              ) : (
+                isAuthenticated && (
+                  <DropdownMenu onOpenChange={setIsDropdownOpen}>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        className="text-foreground hover:bg-accent hover:text-accent-foreground relative flex h-10 w-10 items-center gap-2 p-1"
+                        aria-label="User menu"
+                      >
+                        <div className="flex items-center gap-1">
+                          <User className="h-8 w-8" />
+                          <ChevronDown
+                            className={`h-3 w-3 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
+                          />
                         </div>
-                      </div>
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {userRole === 'USER' && (
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      className="w-56"
+                      align="end"
+                      forceMount
+                    >
+                      <DropdownMenuLabel className="font-normal">
+                        <div className="flex min-w-0 items-center gap-3">
+                          <Avatar className="h-9 w-9 shrink-0">
+                            <AvatarFallback className="bg-primary text-primary-foreground text-sm font-medium">
+                              {session?.user?.email?.charAt(0).toUpperCase() ||
+                                'U'}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex min-w-0 flex-1 flex-col space-y-1">
+                            <p className="truncate text-sm leading-none font-medium">
+                              {capitalizeFirstLetter(session?.user?.name) ||
+                                'Användare'}
+                            </p>
+                            <p
+                              className="text-foreground/90 truncate text-xs leading-none"
+                              title={session?.user?.email || ''}
+                            >
+                              {session?.user?.email}
+                            </p>
+                          </div>
+                        </div>
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      {userRole === 'USER' && (
+                        <Link
+                          href={PROTECTED_PATHS.DASHBOARD_BASE}
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <DropdownMenuItem className="cursor-pointer">
+                            <LayoutDashboard className="mr-2 h-4 w-4" />
+                            <span>Dashboard</span>
+                          </DropdownMenuItem>
+                        </Link>
+                      )}
                       <Link
-                        href={PROTECTED_PATHS.DASHBOARD_BASE}
+                        href={PROTECTED_PATHS.SETTINGS_BASE}
                         onClick={() => setIsOpen(false)}
                       >
                         <DropdownMenuItem className="cursor-pointer">
-                          <LayoutDashboard className="mr-2 h-4 w-4" />
-                          <span>Dashboard</span>
+                          <Settings className="mr-2 h-4 w-4" />
+                          <span>Settings</span>
                         </DropdownMenuItem>
                       </Link>
-                    )}
-                    <Link
-                      href={PROTECTED_PATHS.SETTINGS_BASE}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      <DropdownMenuItem className="cursor-pointer">
-                        <Settings className="mr-2 h-4 w-4" />
-                        <span>Settings</span>
+                      <DropdownMenuItem disabled className="cursor-not-allowed">
+                        <HelpCircle className="mr-2 h-4 w-4" />
+                        <span>FAQ</span>
                       </DropdownMenuItem>
-                    </Link>
-                    <DropdownMenuItem disabled className="cursor-not-allowed">
-                      <HelpCircle className="mr-2 h-4 w-4" />
-                      <span>FAQ</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      onClick={() => {
-                        authClient.signOut({
-                          fetchOptions: {
-                            onSuccess: () => {
-                              window.location.href = '/';
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={() => {
+                          authClient.signOut({
+                            fetchOptions: {
+                              onSuccess: () => {
+                                window.location.href = '/';
+                              },
                             },
-                          },
-                        });
-                        setIsOpen(false);
-                      }}
-                      className="cursor-pointer"
-                    >
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Logga ut</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                          });
+                          setIsOpen(false);
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Logga ut</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )
               )}
 
               {/* Mobile Menu Button */}
