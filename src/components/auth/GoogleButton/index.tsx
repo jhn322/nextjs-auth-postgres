@@ -14,7 +14,7 @@ export const GoogleButton = ({
     <Button
       variant="outline"
       className="w-full rounded-full"
-      onClick={onSuccess} // The onClick handler now directly uses the provided onSuccess callback
+      onClick={onSuccess}
       disabled={isLoading || disabled}
     >
       {isLoading ? (
