@@ -1,5 +1,6 @@
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
+import { oAuthProxy } from 'better-auth/plugins';
 import prisma from '@/lib/prisma';
 import {
   sendVerificationEmail as sendBrevoVerificationEmail,
@@ -26,13 +27,30 @@ export const auth = betterAuth({
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      redirectURI: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback/google`,
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      redirectURI: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback/github`,
     },
   },
-  plugins: [],
+  trustedOrigins: [process.env.NEXT_PUBLIC_APP_URL!],
+  advanced: {
+    cookies: {
+      state: {
+        attributes: {
+          sameSite: 'none',
+          secure: true,
+        },
+      },
+    },
+  },
+  plugins: [
+    oAuthProxy({
+      productionURL: process.env.NEXT_PUBLIC_APP_URL,
+    }),
+  ],
   user: {
     additionalFields: {
       role: {
