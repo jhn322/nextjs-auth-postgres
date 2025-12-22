@@ -3,4 +3,4 @@
 // * ==========================================================================
 // Contains constants related to general site information, branding, etc.
 
-export const APP_NAME = 'Next.js Auth Postgres Template';
+export const APP_NAME = 'Better Auth Template';
