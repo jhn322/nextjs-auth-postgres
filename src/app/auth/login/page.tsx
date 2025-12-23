@@ -45,22 +45,18 @@ function LoginContent() {
   });
 
   const { loading: googleLoading, handleGoogleSignIn } = useGoogleAuth({
-    onSuccess: () => router.push(DEFAULT_LOGIN_REDIRECT),
     onError: (err: Error) => setError(err.message),
   });
 
   const { loading: githubLoading, handleGithubSignIn } = useGithubAuth({
-    onSuccess: () => router.push(DEFAULT_LOGIN_REDIRECT),
     onError: (err: Error) => setError(err.message),
   });
 
   const { loading: discordLoading, handleDiscordSignIn } = useDiscordAuth({
-    onSuccess: () => router.push(DEFAULT_LOGIN_REDIRECT),
     onError: (err: Error) => setError(err.message),
   });
 
   const { loading: twitterLoading, handleTwitterSignIn } = useTwitterAuth({
-    onSuccess: () => router.push(DEFAULT_LOGIN_REDIRECT),
     onError: (err: Error) => setError(err.message),
   });
 
