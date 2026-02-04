@@ -228,18 +228,11 @@ export function Navbar() {
                 <div className="flex items-center gap-2">
                   <Link href={AUTH_PATHS.LOGIN}>
                     <Button
-                      variant="outline"
-                      className="border-foreground text-foreground hover:bg-accent hover:text-accent-foreground"
+                      variant="default"
+                      size="lg"
+                      className="border-foreground bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground"
                     >
                       Sign In
-                    </Button>
-                  </Link>
-                  <Link href={AUTH_PATHS.REGISTER}>
-                    <Button
-                      variant="default"
-                      className="bg-foreground text-background hover:bg-foreground/90"
-                    >
-                      Sign Up
                     </Button>
                   </Link>
                 </div>
@@ -410,22 +403,11 @@ export function Navbar() {
                       onClick={() => setIsOpen(false)}
                     >
                       <Button
-                        variant="outline"
-                        className="border-foreground text-foreground hover:bg-accent hover:text-accent-foreground text-md w-full transition-colors"
+                        variant="default"
+                        size="lg"
+                        className="border-foreground bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground text-md w-full transition-colors"
                       >
                         Sign In
-                      </Button>
-                    </Link>
-                    <Link
-                      href={AUTH_PATHS.REGISTER}
-                      className="block w-full"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      <Button
-                        variant="default"
-                        className="bg-foreground text-background hover:bg-foreground/90 text-md w-full transition-colors"
-                      >
-                        Sign Up
                       </Button>
                     </Link>
                   </>
